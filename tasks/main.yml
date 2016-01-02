@@ -1,0 +1,32 @@
+---
+# tasks file for ansible-role-user-www
+
+- name: Apache | Configuration file for our devserver site
+  template: src=devserver.conf.j2 dest=/etc/apache2/sites-available/devserver.conf
+  notify:
+    - restart apache
+
+- name: Apache | Configuration file for https devserver site
+  template: src=devserver-ssl.conf.j2 dest=/etc/apache2/sites-available/devserver-ssl.conf
+  notify:
+    - restart apache
+
+- name: Apache | Enable our new devserver site
+  command: a2ensite devserver creates=/etc/apache2/sites-enabled/devserver
+  notify:
+    - restart apache
+
+- name: Apache | Enable our new https devserver site
+  command: a2ensite devserver-ssl creates=/etc/apache2/sites-enabled/devserver-ssl
+  notify:
+    - restart apache
+
+- name: Apache | Robots.txt file that prevents search engines from spidering dev site.
+  copy: src=robots.txt dest=/var/www/robots.txt
+  notify:
+    - restart apache
+
+- name: Apache | htaccess file for user access control.
+  copy: src=htpasswd dest=/etc/apache2/htpasswd
+  notify:
+    - restart apache
