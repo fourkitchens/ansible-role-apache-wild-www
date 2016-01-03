@@ -1,2 +1,11 @@
 ---
 # vars file for ansible-role-user-www
+apache_port: 80
+apache_server_home_docroot: '/var/www/home'
+apache_server_admin: 'it@fourkittens.com'
+apache_server_alias: '*.*.webchefs.org'
+apache_server_virtual_docroot: '/home/%-4/www/%-3'
+apache_server_directory: '/home/*/www/*'
+apache_vhost_user: www-data
+apache_vhost_group: www-data
+skip_server_auth: false
